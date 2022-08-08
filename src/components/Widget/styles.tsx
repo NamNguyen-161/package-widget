@@ -13,8 +13,11 @@ export const ContainerWidget = styled.div`
   background: url(${BackgroundTicket});
   background-size: cover;
   background-repeat: no-repeat;
-  position: relative;
-  margin: 100px auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2147483647;
 `;
 
 export const Footer = styled.div`
