@@ -1,28 +1,56 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Button from "../Button/button";
 import "../../styles/global.scss";
 import { ContainerWidget, Footer } from "./styles";
 import LoginScreen from "../../screens/Login/Login.screen";
-import { Web3ReactProvider } from "@web3-react/core";
-import { ethers } from "ethers";
+import { useWeb3React } from "@web3-react/core";
+import { injected } from "../../Wallet/connectors";
+import { IWidgetTemplateProps } from "..";
+import ChooseTicketScreen from "../../screens/ChooseTicket";
 
-export interface IWidgetProps {}
+export default function Widget(props: IWidgetTemplateProps) {
+  const { address, url } = props;
+  const [step, setStep] = useState<number>(0);
+  const { activate, account } = useWeb3React();
 
-const getLibrary = (provider: any) => {
-  const library = new ethers.providers.Web3Provider(provider);
-  library.pollingInterval = 8000; // frequency provider is polling
-  return library;
-};
+  useEffect(() => {
+    account && setStep(1);
+  }, [account]);
 
-export default function Widget(props: IWidgetProps) {
+  const connectMetamask = () => {
+    try {
+      activate(injected, undefined, true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const onNextStep = () => {
+    console.log("next");
+  };
+
+  const renderButton = useMemo(() => {
+    switch (step) {
+      case 0:
+        return <Button label="Connect Wallet" action={connectMetamask} />;
+      case 1:
+        return <Button label="Next: Checkout" action={onNextStep} />;
+    }
+  }, [step]);
+
+  const renderScreen = useMemo(() => {
+    switch (step) {
+      case 0:
+        return <LoginScreen />;
+      case 1:
+        return <ChooseTicketScreen />;
+    }
+  }, [step]);
+
   return (
-    <Web3ReactProvider getLibrary={getLibrary}>
-      <ContainerWidget>
-        <LoginScreen />
-        <Footer>
-          <Button label="Connect Wallet" />
-        </Footer>
-      </ContainerWidget>
-    </Web3ReactProvider>
+    <ContainerWidget>
+      {renderScreen}
+      <Footer>{renderButton}</Footer>
+    </ContainerWidget>
   );
 }

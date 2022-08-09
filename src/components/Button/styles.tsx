@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { darken } from "../../utils/helper";
-import { ColorStyle } from "../../utils/types";
+import { ColorStyle } from "../types";
 
 export const CustomButton = styled.button<ColorStyle>`
   width: 100%;
