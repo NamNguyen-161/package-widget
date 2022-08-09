@@ -3,6 +3,7 @@ import BackgroundTicket from "../../images/background_ticket.png";
 import styled from "styled-components";
 
 export const ContainerWidget = styled.div`
+  font-family: "LR";
   width: 416px;
   min-height: 474px;
   border: 8px solid #ffffff;
