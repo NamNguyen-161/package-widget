@@ -22,6 +22,7 @@ export const Label = styled.p<Omit<ColorStyle, "background">>`
   font-weight: 700;
   font-size: 18px;
   line-height: 22px;
+  text-transform: uppercase;
   color: ${(props) => props.color};
 `;
 

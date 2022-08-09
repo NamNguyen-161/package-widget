@@ -30,7 +30,10 @@ export default function ItemChooseTicket(props: IItemChooseTicketProps) {
         <img src={AvatarTicket} />
       </WrapperAvatarTicket>
       <WrapperInfoTicket>
-        <TicketName color="#000000">Event Name</TicketName>
+        <TicketName color="#000000">
+          Event Name Event Name Event Name Event Name Event Name Event Name
+          Event Name Event Name
+        </TicketName>
         <ExistingTicket>
           <ExistingLabel color="#000000">Existing tickets:&nbsp;</ExistingLabel>
           <ExistingNumber>99</ExistingNumber>

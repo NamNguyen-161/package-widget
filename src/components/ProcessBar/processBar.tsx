@@ -1,6 +1,5 @@
-import React, { memo } from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import { ProgressBar, Step } from "react-step-progress-bar";
-import { IEventResponse } from "../types";
 import { CircleIndexProcess, TextProcess } from "./styles";
 import "./processBar.scss";
 
@@ -23,20 +22,22 @@ const textProcess = (index: number) => {
 };
 
 export interface IProgressBarComponentProps {
-  transfer?: number;
-  evenInfo?: IEventResponse;
+  step: number;
 }
 
 const ProgressBarComponent = (props: IProgressBarComponentProps) => {
-  const { transfer = 1, evenInfo } = props;
+  const { step } = props;
 
-  const getStepPosition = () => {
-    if (transfer === 1) {
-      return 0.5;
-    } else {
-      return 1;
+  const getStepPosition = useCallback(() => {
+    switch (step) {
+      case 1:
+        return 0.5;
+      case 2:
+        return 1;
+      default:
+        return 0.5;
     }
-  };
+  }, [step]);
 
   const addStyles = (index: number) => {
     if (index === 0) return { paddingLeft: "15px" };
@@ -47,8 +48,8 @@ const ProgressBarComponent = (props: IProgressBarComponentProps) => {
     <ProgressBar
       height={2}
       percent={100 * getStepPosition()}
-      filledBackground={evenInfo?.primaryColor || "#EA5284"}
-      unfilledBackground={evenInfo?.secondColor || "#FFFFFF"}
+      filledBackground={"#EA5284"}
+      unfilledBackground={"#FFFFFF"}
     >
       {steps.map((item, index) => {
         return (

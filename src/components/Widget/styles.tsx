@@ -27,3 +27,13 @@ export const Footer = styled.div`
   left: 24px;
   right: 24px;
 `;
+
+interface IWrapper {
+  open?: boolean;
+}
+export const Wrapper = styled.div<IWrapper>`
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.1);
+  display: ${(props) => (props.open ? "block" : "none")};
+`;

@@ -1,17 +1,26 @@
 import styled from "styled-components";
 import { Text } from "../../styles";
 
-export const Header = styled.div`
+interface HeaderProps {
+  isBack?: boolean;
+}
+export const Header = styled.div<HeaderProps>`
   display: grid;
-  grid-template-columns: 56px 1fr;
+  grid-template-columns: ${(props) => (props?.isBack ? "96px" : "56px")} 1fr;
   gap: 16px;
   align-items: center;
 `;
 
 export const Image = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+
   img {
-    width: 100%;
-    height: 100%;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     object-fit: cover;
   }
