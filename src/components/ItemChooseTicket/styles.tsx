@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Text } from "../../styles";
 import { darken } from "../../utils/helper";
 import { ColorStyle } from "../types";
 
@@ -79,7 +80,7 @@ export const ExistingLabel = styled(ExistingTicket)<
   opacity: 0.6;
 `;
 
-export const TicketName = styled.p<Omit<ColorStyle, "background">>`
+export const TicketName = styled(Text)<Omit<ColorStyle, "background">>`
   font-weight: 700;
   font-size: 14px;
   line-height: 17px;
@@ -87,6 +88,7 @@ export const TicketName = styled.p<Omit<ColorStyle, "background">>`
   display: flex;
   align-items: center;
   height: 100%;
+  display: -webkit-box;
 `;
 
 export const ExistingNumber = styled(ExistingTicket)`

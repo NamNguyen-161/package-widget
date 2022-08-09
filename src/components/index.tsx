@@ -6,6 +6,7 @@ import Widget from "./Widget/widget";
 export interface IWidgetTemplateProps {
   address: string;
   url: string;
+  open?: boolean;
 }
 
 const getLibrary = (provider: any) => {
@@ -15,10 +16,10 @@ const getLibrary = (provider: any) => {
 };
 
 export default function WidgetTemplate(props: IWidgetTemplateProps) {
-  const { url, address } = props;
+  const { url, address, open } = props;
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
-      <Widget url={url} address={address} />
+      <Widget url={url} address={address} open={open} />
     </Web3ReactProvider>
   );
 }
