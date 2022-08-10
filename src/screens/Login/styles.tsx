@@ -2,16 +2,22 @@ import styled from "styled-components";
 import IconEvent from "../../images/icon_event.png";
 import { Text } from "../../styles";
 
-export const MainLogin = styled.div`
+export const MainLogin = styled.div<{ loading: boolean }>`
   width: 100%;
   margin-top: 40px;
   font-family: "LR";
+  display: ${(props) => (props.loading ? "none" : "block")};
 `;
 
-export const AvatarEvent = styled.div`
+export const AvatarEvent = styled.div<{ avatar?: string }>`
   width: 56px;
   height: 56px;
-  background: url(${IconEvent});
+  background: ${(props) =>
+    !props.avatar
+      ? `url(${IconEvent})`
+      : props.avatar.includes("https")
+      ? `url(${props.avatar})`
+      : props.avatar};
   border-radius: 50%;
   padding-top: 40px;
   margin: 0 auto;
