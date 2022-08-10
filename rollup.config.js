@@ -5,6 +5,7 @@ import typescript from "rollup-plugin-typescript2";
 import postcss from "rollup-plugin-postcss";
 import image from "@rollup/plugin-image";
 import copy from "rollup-plugin-copy";
+import json from "@rollup/plugin-json";
 
 const packageJson = require("./package.json");
 
@@ -26,6 +27,9 @@ export default {
     commonjs(),
     peerDepsExternal(),
     resolve({ browser: true }),
+    json({
+      compact: true,
+    }),
     typescript({
       useTsconfigDeclarationDir: true,
       tsconfig: "./tsconfig.json",

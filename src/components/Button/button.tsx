@@ -6,22 +6,18 @@ import { CustomButton } from "./styles";
 export interface ButtonProps {
   label: string;
   action: () => void;
+  background: string;
+  color: string;
 }
 
 const Button = (props: ButtonProps) => {
-  const { label, action } = props;
-  // const { activate, library, account } = useWeb3React();
-
-  // const connectMetamask = () => {
-  //   console.log({ library, account });
-  //   try {
-  //     activate(injected, undefined, true);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const { label, action, background, color } = props;
   return (
-    <CustomButton background="#EA5284" color="#FFFFFF" onClick={() => action()}>
+    <CustomButton
+      background={background}
+      color={color}
+      onClick={() => action()}
+    >
       {label}
     </CustomButton>
   );

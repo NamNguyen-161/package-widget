@@ -113,10 +113,7 @@ import React from "react";
 import { TestComponent } from "harvey-component-library";
 
 const App = () => (
-  <div className="app-container">
-    <h1>Hello I'm consuming the component library</h1>
-    <TestComponent theme="primary" />
-  </div>
+  <TestComponent theme="primary" />
 );
 
 export default App;

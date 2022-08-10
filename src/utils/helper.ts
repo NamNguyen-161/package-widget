@@ -1,5 +1,4 @@
 import { css } from "styled-components";
-import red from "styled-components";
 
 export const lighten = (value: number) => css`
   filter: brightness(${value + 1});
