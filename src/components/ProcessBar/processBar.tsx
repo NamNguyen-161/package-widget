@@ -1,7 +1,6 @@
 import React, { memo, useCallback, useMemo } from "react";
-import { ProgressBar, Step } from "react-step-progress-bar";
+import { ProgressBar, Step } from "../StepProcessBar";
 import { CircleIndexProcess, TextProcess } from "./styles";
-import "./processBar.scss";
 
 const steps = [
   {
@@ -57,9 +56,11 @@ const ProgressBarComponent = (props: IProgressBarComponentProps) => {
             key={item.status}
             position={100 * getStepPosition()}
             transition="scale"
+            accomplished={true}
+            index={index}
           >
-            {({ accomplished }) => (
-              <>
+            {({ accomplished, index }) => (
+              <React.Fragment>
                 <CircleIndexProcess accomplished={accomplished}>
                   {index + 1}
                 </CircleIndexProcess>
@@ -70,7 +71,7 @@ const ProgressBarComponent = (props: IProgressBarComponentProps) => {
                 >
                   {textProcess(index)}
                 </TextProcess>
-              </>
+              </React.Fragment>
             )}
           </Step>
         );

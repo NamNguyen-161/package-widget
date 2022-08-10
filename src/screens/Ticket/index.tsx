@@ -39,9 +39,9 @@ const TicketScreen = (props: IChooseTicketScreenProps) => {
   return (
     <React.Fragment>
       <HeaderStyled step={step} setStep={setStep} />
-      {/* <WrapperProcessBar>
+      <WrapperProcessBar>
         <ProcessBar step={step} />
-      </WrapperProcessBar> */}
+      </WrapperProcessBar>
       <Main>
         {renderLabelScreen}
         {renderScreenTicket}

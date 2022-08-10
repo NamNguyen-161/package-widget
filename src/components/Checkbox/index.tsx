@@ -10,6 +10,8 @@ interface ICheckbox {
 const CheckboxContainer = styled.div`
   display: inline-block;
   vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
 `;
 
 const Icon = styled.svg`
