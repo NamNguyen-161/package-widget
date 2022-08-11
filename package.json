@@ -1,5 +1,5 @@
 {
-  "name": "widget-template",
+  "name": "@namnguyenvan2k/widget-template",
   "version": "1.0.0",
   "description": "",
   "main": "build/index.js",
@@ -69,5 +69,8 @@
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0",
     "styled-components": "^5.1.1"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/namnguyenvan2k"
   }
 }
