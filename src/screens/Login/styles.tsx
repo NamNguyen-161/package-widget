@@ -21,6 +21,8 @@ export const AvatarEvent = styled.div<{ avatar?: string }>`
   border-radius: 50%;
   padding-top: 40px;
   margin: 0 auto;
+  background-size: cover;
+  background-repeat: none;
 `;
 
 export const EventName = styled(Text)`

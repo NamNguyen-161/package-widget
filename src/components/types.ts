@@ -3,6 +3,10 @@ export interface ColorStyle {
   color: string;
 }
 
+export interface IObject {
+  [key: string]: string | number | boolean;
+}
+
 export interface IEventResponse extends ICustomStyle {
   avatar: string;
   background: string;
@@ -12,6 +16,7 @@ export interface IEventResponse extends ICustomStyle {
   startTime: string;
   url: string;
   subTitle: string;
+  address: string;
 }
 
 export interface ICustomStyle {
@@ -25,4 +30,17 @@ export interface ICustomStyle {
   subTitleFont: string;
   tertiaryColor: string;
   titleFont: string;
+}
+
+export interface ITicket extends IObject {
+  amount: number;
+  content: string;
+  description: string;
+  id: number;
+  image: string;
+  name: string;
+  price: number;
+  unlockContent: boolean;
+  count: number;
+  maxCount: number;
 }

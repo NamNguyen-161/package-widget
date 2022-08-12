@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Text } from "../../styles";
+import { ColorStyle } from "../types";
 
 interface HeaderProps {
   isBack?: boolean;
@@ -11,12 +12,13 @@ export const Header = styled.div<HeaderProps>`
   align-items: center;
 `;
 
-export const Image = styled.div`
+export const Image = styled.div<Omit<ColorStyle, "color">>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   cursor: pointer;
+  background: ${(props) => props.background || "none"};
 
   img {
     width: 56px;
@@ -30,6 +32,7 @@ export const Name = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  align-items: flex-start;
 `;
 
 export const EventName = styled(Text)`
@@ -37,6 +40,7 @@ export const EventName = styled(Text)`
   font-size: 24px;
   line-height: 29px;
   color: #ffffff;
+  padding-right: 10px;
 `;
 
 export const EventSubName = styled(Text)`
@@ -48,4 +52,5 @@ export const EventSubName = styled(Text)`
     -1px -1px 0 #fff;
   color: black;
   padding-left: 2px;
+  padding-right: 10px;
 `;

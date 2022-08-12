@@ -2,6 +2,9 @@ import { Web3ReactProvider } from "@web3-react/core";
 import { ethers } from "ethers";
 import React from "react";
 import Widget from "./Widget/widget";
+import EventProvider from "../contexts/event";
+import LoadingProvider from "../contexts/loading";
+import TicketProvider from "../contexts/ticket";
 
 export interface IWidgetTemplateProps {
   address: string;
@@ -11,15 +14,21 @@ export interface IWidgetTemplateProps {
 
 const getLibrary = (provider: any) => {
   const library = new ethers.providers.Web3Provider(provider);
-  library.pollingInterval = 8000; // frequency provider is polling
+  library.pollingInterval = 8000;
   return library;
 };
 
-export default function WidgetTemplate(props: IWidgetTemplateProps) {
+export default function ChiWidget(props: IWidgetTemplateProps) {
   const { url, address, open } = props;
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
-      <Widget url={url} address={address} open={open} />
+      <LoadingProvider>
+        <EventProvider>
+          <TicketProvider>
+            <Widget url={url} address={address} open={open} />
+          </TicketProvider>
+        </EventProvider>
+      </LoadingProvider>
     </Web3ReactProvider>
   );
 }

@@ -1,17 +1,29 @@
-import * as React from "react";
+import React, { memo, useState } from "react";
+import useTicket from "../../../components/hooks/useTicket";
 import ItemChooseTicket from "../../../components/ItemChooseTicket";
+import { ITicket } from "../../../components/types";
 import { ListTicket } from "../../../styles";
 
-export interface IChooseTicketScreenProps {}
+export interface IChooseTicketScreenProps {
+  increase: (id: number) => void;
+  decrease: (id: number) => void;
+  listTicket: ITicket[];
+}
 
-export default function ChooseTicketScreen(props: IChooseTicketScreenProps) {
+const ChooseTicketScreen = (props: IChooseTicketScreenProps) => {
+  const { increase, decrease, listTicket } = props;
   return (
     <ListTicket>
-      <ItemChooseTicket />
-      <ItemChooseTicket />
-      <ItemChooseTicket />
-      <ItemChooseTicket />
-      <ItemChooseTicket />
+      {listTicket.map((ticket, index) => (
+        <ItemChooseTicket
+          ticket={ticket}
+          key={index}
+          increase={increase}
+          decrease={decrease}
+        />
+      ))}
     </ListTicket>
   );
-}
+};
+
+export default memo(ChooseTicketScreen);

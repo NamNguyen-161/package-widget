@@ -1,8 +1,8 @@
 import React, { memo, useCallback, useMemo } from "react";
-
 import IconEvent from "../../images/icon_event.png";
 import { IIconSvg } from "../ItemMintTicket";
 import { Icon } from "../ItemMintTicket/styles";
+import { IEventResponse } from "../types";
 import { EventName, EventSubName, Header, Image, Name } from "./styles";
 
 const IconArrowBack = ({ stroke }: Omit<IIconSvg, "fill">) => {
@@ -37,10 +37,11 @@ const IconArrowBack = ({ stroke }: Omit<IIconSvg, "fill">) => {
 export interface IHeaderProps {
   step: number;
   setStep: (step: number) => void;
+  event: IEventResponse;
 }
 
 const HeaderStyled = (props: IHeaderProps) => {
-  const { step, setStep } = props;
+  const { step, setStep, event } = props;
 
   const isBack = useCallback(() => {
     return step === 2 ? true : false;
@@ -50,19 +51,33 @@ const HeaderStyled = (props: IHeaderProps) => {
     setStep(step - 1);
   }, [step]);
 
+  const renderImage = useMemo(() => {
+    if (event.avatar) {
+      if (event.avatar.includes("https")) {
+        return <img src={event.avatar} />;
+      }
+      return null;
+    }
+    return <img src={IconEvent} />;
+  }, [event]);
+
   return (
     <Header isBack={isBack()}>
-      <Image>
+      <Image
+        background={
+          event.avatar && !event.avatar.includes("https") ? event.avatar : ""
+        }
+      >
         {isBack() && (
           <Icon onClick={() => handleBack()}>
-            <IconArrowBack stroke="white" />
+            <IconArrowBack stroke={event.secondColor} />
           </Icon>
         )}
-        <img src={IconEvent} />
+        {renderImage}
       </Image>
       <Name>
-        <EventName>Event Name</EventName>
-        <EventSubName>Event Title</EventSubName>
+        <EventName>{event.name}</EventName>
+        <EventSubName>{event.subTitle}</EventSubName>
       </Name>
     </Header>
   );

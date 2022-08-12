@@ -1,4 +1,6 @@
-import React from "react";
+import React, { memo, useCallback } from "react";
+import useEvent from "../hooks/useEvent";
+import { ITicket } from "../types";
 import {
   CustomSelect,
   Icon,
@@ -51,25 +53,42 @@ const IconDropdown = ({ fill }: Omit<IIconSvg, "stroke">) => {
   );
 };
 
-export interface IItemMintTicketProps {}
+export interface IItemMintTicketProps {
+  ticket: ITicket;
+  onChangeMintTicket: (id: number, count: number) => void;
+}
 
-export default function ItemMintTicket(props: IItemMintTicketProps) {
+const ItemMintTicket = (props: IItemMintTicketProps) => {
+  const { event } = useEvent();
+  const { ticket, onChangeMintTicket } = props;
+  const arrayCount = useCallback(() => {
+    return Array.from(Array(ticket.maxCount).keys());
+  }, [ticket]);
   return (
     <MintTicketComponent>
       <div style={{ position: "relative" }}>
-        <CustomSelect name="" id="" color="black" background="#EA5284">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">4</option>
+        <CustomSelect
+          color={event.tertiaryColor}
+          background={event.primaryColor}
+          onChange={(e) => onChangeMintTicket(ticket.id, +e.target.value)}
+          defaultValue={ticket.maxCount}
+        >
+          {arrayCount().map((value, index) => (
+            <option value={value + 1} key={index}>
+              {value + 1}
+            </option>
+          ))}
         </CustomSelect>
         <PositionDropdown>
-          <IconDropdown fill="black" />
+          <IconDropdown fill={event.tertiaryColor} />
         </PositionDropdown>
       </div>
-      <NameMintTicket>WEEKEND TICKET - GUIDE WEEKEND TICKET</NameMintTicket>
+      <NameMintTicket>{ticket.name}</NameMintTicket>
       <Icon>
-        <IconTrash stroke="black" fill="white" />
+        <IconTrash stroke={event.tertiaryColor} fill={event.secondColor} />
       </Icon>
     </MintTicketComponent>
   );
-}
+};
+
+export default memo(ItemMintTicket);

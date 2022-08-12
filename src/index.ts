@@ -1,3 +1,3 @@
-import WidgetTemplate from "./components";
+import CHiWidget from "./components";
 
-export default WidgetTemplate;
+export default CHiWidget;

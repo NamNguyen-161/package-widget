@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import {
   ButtonCountTicket,
   CircleButton,
@@ -12,50 +12,54 @@ import {
   ExistingNumber,
 } from "./styles";
 import AvatarTicket from "../../images/avatar_ticket.png";
+import { ITicket } from "../types";
+import useEvent from "../hooks/useEvent";
 
-export interface IItemChooseTicketProps {}
+export interface IItemChooseTicketProps {
+  ticket: ITicket;
+  increase: (id: number) => void;
+  decrease: (id: number) => void;
+}
 
-export default function ItemChooseTicket(props: IItemChooseTicketProps) {
-  const [number, setNumber] = useState<number>(0);
-  const incrementTicket = () => {
-    setNumber((preValue) => ++preValue);
-  };
-  const decrementTicket = () => {
-    setNumber((preValue) => (preValue === 0 ? 0 : --preValue));
-  };
+const ItemChooseTicket = (props: IItemChooseTicketProps) => {
+  const { ticket, increase, decrease } = props;
+  const { event } = useEvent();
 
   return (
-    <WrapperItemChooseTicket>
-      <WrapperAvatarTicket background="#FFFFFF">
-        <img src={AvatarTicket} />
+    <WrapperItemChooseTicket background={event.secondColor}>
+      <WrapperAvatarTicket>
+        <img src={ticket.image ? ticket.image : AvatarTicket} />
       </WrapperAvatarTicket>
       <WrapperInfoTicket>
-        <TicketName color="#000000">
-          Event Name Event Name Event Name Event Name Event Name Event Name
-          Event Name Event Name
-        </TicketName>
+        <TicketName color={event.tertiaryColor}>{ticket.name}</TicketName>
         <ExistingTicket>
-          <ExistingLabel color="#000000">Existing tickets:&nbsp;</ExistingLabel>
-          <ExistingNumber>99</ExistingNumber>
+          <ExistingLabel color={event.tertiaryColor}>
+            Existing tickets:&nbsp;
+          </ExistingLabel>
+          <ExistingNumber>{ticket.amount}</ExistingNumber>
         </ExistingTicket>
       </WrapperInfoTicket>
-      <ButtonCountTicket background="rgba(234, 82, 132, 0.16)">
+      <ButtonCountTicket background={event.primaryColor}>
         <CircleButton
-          color="#000000"
-          background="#FFFFFF"
-          onClick={decrementTicket}
+          color={event.tertiaryColor}
+          background={event.secondColor}
+          onClick={() => decrease(ticket.id)}
         >
           -
         </CircleButton>
-        <NumberTicket color="#000000">{number}</NumberTicket>
+        <NumberTicket color={event.tertiaryColor}>
+          {ticket.maxCount}
+        </NumberTicket>
         <CircleButton
-          color="#FFFFFF"
-          background="#EA5284"
-          onClick={incrementTicket}
+          color={event.secondColor}
+          background={event.primaryColor}
+          onClick={() => increase(ticket.id)}
         >
           +
         </CircleButton>
       </ButtonCountTicket>
     </WrapperItemChooseTicket>
   );
-}
+};
+
+export default memo(ItemChooseTicket);

@@ -8,15 +8,17 @@ export interface ButtonProps {
   action: () => void;
   background: string;
   color: string;
+  disable?: boolean;
 }
 
 const Button = (props: ButtonProps) => {
-  const { label, action, background, color } = props;
+  const { label, action, background, color, disable } = props;
   return (
     <CustomButton
       background={background}
       color={color}
       onClick={() => action()}
+      disabled={disable || false}
     >
       {label}
     </CustomButton>

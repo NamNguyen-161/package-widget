@@ -1,4 +1,5 @@
 import { InjectedConnector } from "@web3-react/injected-connector";
+import { ethers } from "ethers";
 // import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 
 export const supportedChainIds = [3];
@@ -24,3 +25,5 @@ export const injected = new InjectedConnector({
 //   qrcode: true,
 //   // pollingInterval: POLLING_INTERVAL,
 // });
+
+export const provider = ethers.getDefaultProvider(3);

@@ -1,23 +1,27 @@
 import styled from "styled-components";
 import { Text } from "../../styles";
-import { darken } from "../../utils/helper";
+import { darken, parseColor } from "../../utils/helper";
 import { ColorStyle } from "../types";
 
-export const WrapperItemChooseTicket = styled.div`
+const backgroundBtn = (color: string) => {
+  const data = parseColor(color);
+  return `rgba(${data[0]}, ${data[1]}, ${data[2]},0.16)`;
+};
+
+export const WrapperItemChooseTicket = styled.div<Omit<ColorStyle, "color">>`
   width: 100%;
   border-radius: 8px;
-  background: #ffffff;
+  background: ${(props) => props.background};
   padding: 16px;
   display: grid;
   grid-template-columns: 32px 1fr 92px;
   gap: 12px;
 `;
 
-export const WrapperAvatarTicket = styled.div<Omit<ColorStyle, "color">>`
+export const WrapperAvatarTicket = styled.div`
   width: 100%;
   height: 32px;
   border-radius: 50%;
-  background: ${(props) => props.background};
 
   img {
     width: 100%;
@@ -30,6 +34,7 @@ export const WrapperInfoTicket = styled.div`
   display: grid;
   grid-template-rows: 1fr;
   gap: 4px;
+  text-align: left;
 `;
 
 export const ButtonCountTicket = styled.div<Omit<ColorStyle, "color">>`
@@ -37,7 +42,7 @@ export const ButtonCountTicket = styled.div<Omit<ColorStyle, "color">>`
   height: 32px;
   padding: 4px;
   border-radius: 100px;
-  background: ${(props) => props.background};
+  background: ${(props) => backgroundBtn(props.background)};
   display: grid;
   grid-template-columns: 24px 1fr 24px;
   gap: 5px;

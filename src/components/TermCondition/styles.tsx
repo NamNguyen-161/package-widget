@@ -13,4 +13,5 @@ export const TextTermAndCondition = styled.div<Omit<ColorStyle, "background">>`
   font-size: 14px;
   line-height: 17px;
   color: ${(props) => props.color};
+  text-align: left;
 `;

@@ -1,7 +1,12 @@
 import styled from "styled-components";
 import { Text } from "../../styles";
-import { darken, hexToRgb } from "../../utils/helper";
+import { parseColor } from "../../utils/helper";
 import { ColorStyle } from "../types";
+
+const backgroundSelect = (color: string) => {
+  const data = parseColor(color);
+  return `rgba(${data[0]}, ${data[1]}, ${data[2]},0.18)`;
+};
 
 export const MintTicketComponent = styled.div`
   height: 32px;
@@ -23,6 +28,7 @@ export const NameMintTicket = styled(Text)`
   -webkit-line-clamp: 1;
   line-clamp: 1;
   display: -webkit-box;
+  text-align: left;
 `;
 
 export const Icon = styled.div`
@@ -35,7 +41,7 @@ export const CustomSelect = styled.select<ColorStyle>`
   padding: 4px 8px;
   width: 100%;
   color: ${(props) => props.color};
-  background: ${(props) => hexToRgb(props.background, 0.18)};
+  background: ${(props) => backgroundSelect(props.background)};
   border: none;
   outline: none;
   font-weight: 700;
