@@ -5,19 +5,21 @@ import { WrapperProcessBar } from "./styles";
 import HeaderStyled from "../../components/Header";
 import ChooseTicketScreen from "./ChooseTicket";
 import MinTicketScreen from "./MintTicket";
-import { IEventResponse, ITicket } from "../../components/types";
+import { EEnableBtn, ITicket } from "../../components/types";
 import useEvent from "../../components/hooks/useEvent";
-import { useWeb3React } from "@web3-react/core";
 import useTicket from "../../components/hooks/useTicket";
 
 export interface IChooseTicketScreenProps {
   step: number;
   setStep: (step: number) => void;
-  onChangeDisableBtn: (disable: boolean) => void;
+  onChangeEnableBtn: (enable: boolean, type: EEnableBtn) => void;
+  enableMintTicket: boolean;
+  getMintTicket: (data: ITicket[]) => void;
 }
 
 const TicketScreen = (props: IChooseTicketScreenProps) => {
-  const { step, setStep, onChangeDisableBtn } = props;
+  const { step, setStep, onChangeEnableBtn, enableMintTicket, getMintTicket } =
+    props;
   const { event } = useEvent();
   const { tickets } = useTicket();
   const [listTicket, setListTicket] = useState<ITicket[]>(tickets);
@@ -26,8 +28,7 @@ const TicketScreen = (props: IChooseTicketScreenProps) => {
     const total = listTicket.reduce((acc: number, item: ITicket) => {
       return acc + item.maxCount;
     }, 0);
-    console.log({ total });
-    onChangeDisableBtn(total > 0 ? false : true);
+    onChangeEnableBtn(total > 0 ? false : true, EEnableBtn.CHECKOUT);
   }, [listTicket]);
 
   useEffect(() => {
@@ -65,17 +66,12 @@ const TicketScreen = (props: IChooseTicketScreenProps) => {
     setListTicket(ticket);
   };
 
-  const onChangeMintTicket = (id: number, count: number) => {
-    const ticket = listTicket.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          count,
-        };
-      }
-      return { ...item };
-    });
-    setListTicket(ticket);
+  const onBackStep = (step: number) => {
+    setStep(step);
+  };
+
+  const onChangeEnableMintTicket = (enable: boolean) => {
+    onChangeEnableBtn(enable, EEnableBtn.MINT_TICKETS);
   };
 
   const renderScreenTicket = useMemo(() => {
@@ -92,13 +88,16 @@ const TicketScreen = (props: IChooseTicketScreenProps) => {
         return (
           <MinTicketScreen
             listTicket={listTicket}
-            onChangeMintTicket={onChangeMintTicket}
+            onBackStep={onBackStep}
+            onChangeEnableMintTicket={onChangeEnableMintTicket}
+            enableMintTicket={enableMintTicket}
+            getMintTicket={getMintTicket}
           />
         );
       default:
         return;
     }
-  }, [step, listTicket]);
+  }, [step, listTicket, enableMintTicket]);
 
   const renderLabelScreen = useMemo(() => {
     switch (step) {

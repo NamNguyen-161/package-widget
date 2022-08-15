@@ -9,7 +9,7 @@ import TicketProvider from "../contexts/ticket";
 export interface IWidgetTemplateProps {
   address: string;
   url: string;
-  open?: boolean;
+  open: boolean;
 }
 
 const getLibrary = (provider: any) => {

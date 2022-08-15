@@ -5,7 +5,7 @@ import { CustomButton } from "./styles";
 
 export interface ButtonProps {
   label: string;
-  action: () => void;
+  action: () => void | Promise<void>;
   background: string;
   color: string;
   disable?: boolean;

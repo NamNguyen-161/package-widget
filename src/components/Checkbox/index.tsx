@@ -54,7 +54,7 @@ const Checkbox = (props: ICheckbox & { onChange: () => void }) => {
   const { checked, onChange, color, background } = props;
   return (
     <CheckboxContainer>
-      <HiddenCheckbox checked={checked} />
+      <HiddenCheckbox />
       <StyledCheckbox
         checked={checked}
         color={color}

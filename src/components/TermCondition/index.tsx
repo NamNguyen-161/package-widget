@@ -3,20 +3,23 @@ import Checkbox from "../Checkbox";
 import useEvent from "../hooks/useEvent";
 import { TermAndCondition, TextTermAndCondition } from "./styles";
 
-export interface ITermAndConditionalProps {}
+export interface ITermAndConditionalProps {
+  onChangeEnableMintTicket: (enable: boolean) => void;
+  enableMintTicket: boolean;
+}
 
 const TermAndConditional = (props: ITermAndConditionalProps) => {
-  const [checked, setChecked] = useState<boolean>(false);
+  const { onChangeEnableMintTicket, enableMintTicket } = props;
   const { event } = useEvent();
 
   const onChange = () => {
-    setChecked(!checked);
+    onChangeEnableMintTicket(!enableMintTicket);
   };
 
   return (
     <TermAndCondition>
       <Checkbox
-        checked={checked}
+        checked={enableMintTicket}
         onChange={onChange}
         color={event.secondColor}
         background={event.primaryColor}
