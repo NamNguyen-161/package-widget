@@ -2,11 +2,11 @@ import styled from "styled-components";
 import IconEvent from "../../images/icon_event.png";
 import { Text } from "../../styles";
 
-export const MainLogin = styled.div<{ loading: boolean }>`
+export const MainLogin = styled.div<{ loading: 0 | 1 }>`
   width: 100%;
   margin-top: 40px;
   font-family: "LR";
-  display: ${(props) => (props.loading ? "none" : "block")};
+  display: ${(props) => (props.loading === 1 ? "none" : "block")};
 `;
 
 export const AvatarEvent = styled.div<{ avatar?: string }>`

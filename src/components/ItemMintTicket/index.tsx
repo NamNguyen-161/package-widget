@@ -84,7 +84,7 @@ const ItemMintTicket = (props: IItemMintTicketProps) => {
         </PositionDropdown>
       </div>
       <NameMintTicket>{ticket.name}</NameMintTicket>
-      <Icon>
+      <Icon onClick={() => onChangeMintTicket(ticket.id, 0)}>
         <IconTrash stroke={event.tertiaryColor} fill={event.secondColor} />
       </Icon>
     </MintTicketComponent>

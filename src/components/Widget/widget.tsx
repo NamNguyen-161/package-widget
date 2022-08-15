@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Button from "../Button/button";
 import "../../styles/global.scss";
 import { ContainerWidget, Footer, Spinner, Wrapper } from "./styles";
@@ -9,16 +15,28 @@ import { IWidgetTemplateProps } from "..";
 import TicketScreen from "../../screens/Ticket";
 import useLoading from "../hooks/useLoading";
 import useEvent from "../hooks/useEvent";
-import useTicket from "../hooks/useTicket";
+import { EEnableBtn, ITicket } from "../types";
+import { ethers } from "ethers";
+import ChiNetworkEvent from "../../abi/ChiNetworkEvent.json";
+import PaymentSuccess from "../../screens/PaymentSuccess";
+
+const chiNetworkAbi = ChiNetworkEvent.abi;
 
 export default function Widget(props: IWidgetTemplateProps) {
   const { address, url, open } = props;
-  const [step, setStep] = useState<number>(0);
-  const { activate, account } = useWeb3React();
-  const { loading } = useLoading();
+  const { activate, account, library } = useWeb3React();
+  const { loading, hideLoading, showLoading } = useLoading();
   const { getEvent, event } = useEvent();
-  const [disable, setDisable] = useState<boolean>(false);
-  console.log({ disable });
+  const refTickets = useRef<ITicket[]>([]);
+  const [step, setStep] = useState<number>(0);
+  const [openWidget, setOpenWidget] = useState<boolean>(open);
+  const [enableBtn, setEnableBtn] = useState<{
+    checkout: boolean;
+    minTickets: boolean;
+  }>({
+    checkout: false,
+    minTickets: false,
+  });
 
   useEffect(() => {
     getEvent(url, address);
@@ -28,9 +46,11 @@ export default function Widget(props: IWidgetTemplateProps) {
     account && event && setStep(1);
   }, [account, event]);
 
-  const onChangeDisableBtn = (disable: boolean) => {
-    console.log({ disable });
-    setDisable(disable);
+  const onChangeEnableBtn = (enable: boolean, type: EEnableBtn) => {
+    if (type === EEnableBtn.CHECKOUT) {
+      return setEnableBtn({ ...enableBtn, checkout: enable });
+    }
+    return setEnableBtn({ ...enableBtn, minTickets: enable });
   };
 
   const connectMetamask = () => {
@@ -44,6 +64,62 @@ export default function Widget(props: IWidgetTemplateProps) {
   const onNextStep = useCallback(() => {
     setStep((preStep) => ++preStep);
   }, []);
+
+  const getMintTicket = (data: ITicket[]) => {
+    refTickets.current = data;
+  };
+
+  const listIdTicket = () => {
+    const array = refTickets.current.reduce((acc: number[], item: ITicket) => {
+      if (item.count > 0) {
+        acc.push(item.id);
+      }
+      return acc;
+    }, []);
+    return array;
+  };
+
+  const listAmountTicket = () => {
+    const array = refTickets.current.reduce((acc: number[], item: ITicket) => {
+      if (item.count > 0) {
+        acc.push(item.count);
+      }
+      return acc;
+    }, []);
+    return array;
+  };
+
+  const onMintTicket = async () => {
+    if (library) {
+      showLoading();
+      const listId = listIdTicket();
+      const listAmount = listAmountTicket();
+      const provider = library;
+      const signer = provider.getSigner();
+      const ticketContract = new ethers.Contract(
+        event.address,
+        chiNetworkAbi,
+        signer
+      );
+      const estimateGas = await ticketContract.estimateGas.mintTicket(
+        listId,
+        listAmount
+      );
+      try {
+        let txn = await ticketContract.mintTicket(listId, listAmount, {
+          gasLimit: estimateGas,
+        });
+        await txn.wait();
+        hideLoading();
+        onNextStep();
+      } catch (error) {
+        console.log(error);
+        hideLoading();
+      }
+    } else {
+      hideLoading();
+    }
+  };
 
   const renderButton = useMemo(() => {
     if (event) {
@@ -64,21 +140,22 @@ export default function Widget(props: IWidgetTemplateProps) {
               action={onNextStep}
               background={event.primaryColor}
               color={event.secondColor}
-              disable={disable}
+              disable={enableBtn.checkout}
             />
           );
         case 2:
           return (
             <Button
               label="Mint tickets"
-              action={onNextStep}
+              action={onMintTicket}
               background={event.primaryColor}
               color={event.secondColor}
+              disable={!enableBtn.minTickets}
             />
           );
       }
     }
-  }, [step, event, disable]);
+  }, [step, event, enableBtn]);
 
   const renderScreen = useMemo(() => {
     switch (step) {
@@ -90,27 +167,34 @@ export default function Widget(props: IWidgetTemplateProps) {
           <TicketScreen
             step={step}
             setStep={setStep}
-            onChangeDisableBtn={onChangeDisableBtn}
+            onChangeEnableBtn={onChangeEnableBtn}
+            enableMintTicket={enableBtn.minTickets}
+            getMintTicket={getMintTicket}
+          />
+        );
+      case 3:
+        return (
+          <PaymentSuccess
+            tickets={refTickets.current}
+            setOpenWidget={setOpenWidget}
           />
         );
       default:
         return;
     }
-  }, [step, event]);
+  }, [step, event, enableBtn]);
 
   return (
-    <Wrapper open={true}>
+    <Wrapper open={openWidget}>
       <ContainerWidget
-        loading={loading}
+        loading={loading ? 1 : 0}
         background={
           event && (event.backgroundTitle || event.backgroundTitleColor)
         }
       >
         {loading && <Spinner />}
         {renderScreen}
-        <Footer loading={loading && step === 0 ? true : false}>
-          {renderButton}
-        </Footer>
+        <Footer loading={loading && step === 0 ? 1 : 0}>{renderButton}</Footer>
       </ContainerWidget>
     </Wrapper>
   );

@@ -4,14 +4,13 @@ import styled, { keyframes } from "styled-components";
 import { darken } from "../../utils/helper";
 
 export const ContainerWidget = styled.div<{
-  loading: boolean;
+  loading: 0 | 1;
   background?: string;
 }>`
   font-family: "LR";
   width: 416px;
-  min-height: 474px;
+  min-height: 332px;
   border: 8px solid #ffffff;
-  filter: drop-shadow(0px 40px 120px rgba(234, 82, 132, 0.4));
   border-radius: 48px;
   padding: 24px;
   box-sizing: border-box;
@@ -24,7 +23,10 @@ export const ContainerWidget = styled.div<{
   background-size: cover;
   background-repeat: no-repeat;
   margin: 200px auto;
-  ${(props) => (props.loading ? darken(0.4) : darken(0))}
+  ${(props) =>
+    props.loading === 1
+      ? darken(0.4)
+      : "filter: drop-shadow(0px 40px 120px rgba(234, 82, 132, 0.4))"}
 `;
 
 export const RotateSpinner = keyframes`
@@ -52,12 +54,12 @@ export const Spinner = styled.div`
   transition-delay: 200ms;
 `;
 
-export const Footer = styled.div<{ loading: boolean }>`
+export const Footer = styled.div<{ loading: 0 | 1 }>`
   position: absolute;
   bottom: 24px;
   left: 24px;
   right: 24px;
-  display: ${(props) => (props.loading ? "none" : "block")};
+  display: ${(props) => (props.loading === 1 ? "none" : "block")};
 `;
 
 interface IWrapper {

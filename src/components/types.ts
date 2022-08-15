@@ -3,6 +3,11 @@ export interface ColorStyle {
   color: string;
 }
 
+export enum EEnableBtn {
+  CHECKOUT = "CHECKOUT",
+  MINT_TICKETS = "MINT_TICKETS",
+}
+
 export interface IObject {
   [key: string]: string | number | boolean;
 }
