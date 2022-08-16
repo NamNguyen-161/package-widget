@@ -6,7 +6,6 @@ import React, {
   useState,
 } from "react";
 import Button from "../Button/button";
-import "../../styles/global.scss";
 import { ContainerWidget, Footer, Spinner, Wrapper } from "./styles";
 import LoginScreen from "../../screens/Login/Login.screen";
 import { useWeb3React } from "@web3-react/core";
@@ -30,13 +29,7 @@ export default function Widget(props: IWidgetTemplateProps) {
   const refTickets = useRef<ITicket[]>([]);
   const [step, setStep] = useState<number>(0);
   const [openWidget, setOpenWidget] = useState<boolean>(open);
-  const [enableBtn, setEnableBtn] = useState<{
-    checkout: boolean;
-    minTickets: boolean;
-  }>({
-    checkout: false,
-    minTickets: false,
-  });
+  const [enableBtn, setEnableBtn] = useState<boolean>(false);
 
   useEffect(() => {
     getEvent(url, address);
@@ -46,11 +39,8 @@ export default function Widget(props: IWidgetTemplateProps) {
     account && event && setStep(1);
   }, [account, event]);
 
-  const onChangeEnableBtn = (enable: boolean, type: EEnableBtn) => {
-    if (type === EEnableBtn.CHECKOUT) {
-      return setEnableBtn({ ...enableBtn, checkout: enable });
-    }
-    return setEnableBtn({ ...enableBtn, minTickets: enable });
+  const onChangeEnableBtn = (enable: boolean) => {
+    return setEnableBtn(enable);
   };
 
   const connectMetamask = () => {
@@ -140,7 +130,7 @@ export default function Widget(props: IWidgetTemplateProps) {
               action={onNextStep}
               background={event.primaryColor}
               color={event.secondColor}
-              disable={enableBtn.checkout}
+              disable={enableBtn}
             />
           );
         case 2:
@@ -150,7 +140,6 @@ export default function Widget(props: IWidgetTemplateProps) {
               action={onMintTicket}
               background={event.primaryColor}
               color={event.secondColor}
-              disable={!enableBtn.minTickets}
             />
           );
       }
@@ -168,7 +157,6 @@ export default function Widget(props: IWidgetTemplateProps) {
             step={step}
             setStep={setStep}
             onChangeEnableBtn={onChangeEnableBtn}
-            enableMintTicket={enableBtn.minTickets}
             getMintTicket={getMintTicket}
           />
         );

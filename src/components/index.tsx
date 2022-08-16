@@ -5,6 +5,7 @@ import Widget from "./Widget/widget";
 import EventProvider from "../contexts/event";
 import LoadingProvider from "../contexts/loading";
 import TicketProvider from "../contexts/ticket";
+import { GlobalStyle } from "../styles";
 
 export interface IWidgetTemplateProps {
   address: string;
@@ -25,6 +26,7 @@ export default function ChiWidget(props: IWidgetTemplateProps) {
       <LoadingProvider>
         <EventProvider>
           <TicketProvider>
+            <GlobalStyle />
             <Widget url={url} address={address} open={open} />
           </TicketProvider>
         </EventProvider>

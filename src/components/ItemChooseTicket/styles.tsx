@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { Text } from "../../styles";
-import { darken, parseColor } from "../../utils/helper";
+import { darken } from "../../utils/helper";
 import { ColorStyle } from "../types";
+import parse from "parse-color";
 
 const backgroundBtn = (color: string) => {
-  const data = parseColor(color);
-  return `rgba(${data[0]}, ${data[1]}, ${data[2]},0.16)`;
+  const { rgb } = parse(color);
+  return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]},0.16)`;
 };
 
 export const WrapperItemChooseTicket = styled.div<Omit<ColorStyle, "color">>`
@@ -42,7 +43,7 @@ export const ButtonCountTicket = styled.div<Omit<ColorStyle, "color">>`
   height: 32px;
   padding: 4px;
   border-radius: 100px;
-  background: ${(props) => backgroundBtn(props.background)};
+  background: ${(props) => backgroundBtn(props.background.toString())};
   display: grid;
   grid-template-columns: 24px 1fr 24px;
   gap: 5px;

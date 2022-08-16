@@ -1,7 +1,15 @@
 import styled from "styled-components";
 import { ColorStyle } from "../../../components/types";
+import parse from "parse-color";
 
-export const WrapperMinTicket = styled.div<ColorStyle>`
+const background = (color: string) => {
+  const { rgb } = parse(color);
+  return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]},0.6)`;
+};
+
+export const WrapperMinTicket = styled.div<
+  ColorStyle & { primaryColor: string }
+>`
   width: 100%;
   background: ${(props) => props.background};
   color: ${(props) => props.color};
@@ -24,7 +32,7 @@ export const WrapperMinTicket = styled.div<ColorStyle>`
   }
 
   ::-webkit-scrollbar-thumb {
-    box-shadow: inset 0 0 14px 14px rgba(234, 82, 132, 0.75);
+    box-shadow: inset 0 0 14px 14px ${(props) => background(props.primaryColor)};
     border: solid 4px transparent;
     border-radius: 14px;
   }

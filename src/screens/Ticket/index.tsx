@@ -12,14 +12,12 @@ import useTicket from "../../components/hooks/useTicket";
 export interface IChooseTicketScreenProps {
   step: number;
   setStep: (step: number) => void;
-  onChangeEnableBtn: (enable: boolean, type: EEnableBtn) => void;
-  enableMintTicket: boolean;
+  onChangeEnableBtn: (enable: boolean) => void;
   getMintTicket: (data: ITicket[]) => void;
 }
 
 const TicketScreen = (props: IChooseTicketScreenProps) => {
-  const { step, setStep, onChangeEnableBtn, enableMintTicket, getMintTicket } =
-    props;
+  const { step, setStep, onChangeEnableBtn, getMintTicket } = props;
   const { event } = useEvent();
   const { tickets } = useTicket();
   const [listTicket, setListTicket] = useState<ITicket[]>(tickets);
@@ -28,7 +26,7 @@ const TicketScreen = (props: IChooseTicketScreenProps) => {
     const total = listTicket.reduce((acc: number, item: ITicket) => {
       return acc + item.maxCount;
     }, 0);
-    onChangeEnableBtn(total > 0 ? false : true, EEnableBtn.CHECKOUT);
+    onChangeEnableBtn(total > 0 ? false : true);
   }, [listTicket]);
 
   useEffect(() => {
@@ -70,10 +68,6 @@ const TicketScreen = (props: IChooseTicketScreenProps) => {
     setStep(step);
   };
 
-  const onChangeEnableMintTicket = (enable: boolean) => {
-    onChangeEnableBtn(enable, EEnableBtn.MINT_TICKETS);
-  };
-
   const renderScreenTicket = useMemo(() => {
     switch (step) {
       case 1:
@@ -89,15 +83,13 @@ const TicketScreen = (props: IChooseTicketScreenProps) => {
           <MinTicketScreen
             listTicket={listTicket}
             onBackStep={onBackStep}
-            onChangeEnableMintTicket={onChangeEnableMintTicket}
-            enableMintTicket={enableMintTicket}
             getMintTicket={getMintTicket}
           />
         );
       default:
         return;
     }
-  }, [step, listTicket, enableMintTicket]);
+  }, [step, listTicket]);
 
   const renderLabelScreen = useMemo(() => {
     switch (step) {

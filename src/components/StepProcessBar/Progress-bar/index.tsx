@@ -7,8 +7,8 @@ type ProgressBarProps = {
   percent: number;
   children: React.ReactElement<typeof Step>[];
   stepPositions?: Array<number>;
-  unfilledBackground?: string;
-  filledBackground?: string;
+  unfilledBackground: string;
+  filledBackground: string;
   width?: number;
   height?: number;
   hasStepZero?: boolean;

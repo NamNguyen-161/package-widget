@@ -14,6 +14,9 @@ export const WrapperPaymentSuccess = styled.div`
 
 export const HeaderPaymentSuccess = styled.div`
   padding-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const CloseWidget = styled.span<Omit<ColorStyle, "background">>`

@@ -1,5 +1,13 @@
 import styled from "styled-components";
 import { ColorStyle } from "../components/types";
+import { createGlobalStyle } from "styled-components";
+import FontLatoChi from "./fonts/LatoCHI-Regular.ttf";
+import parse from "parse-color";
+
+const background = (color: string) => {
+  const { rgb } = parse(color);
+  return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]},0.6)`;
+};
 
 export interface IDividerProps {
   height: number;
@@ -32,7 +40,7 @@ export const Main = styled.div`
   margin-bottom: 100px;
 `;
 
-export const ListTicket = styled.div`
+export const ListTicket = styled.div<Omit<ColorStyle, "color">>`
   margin: 24px 0 0;
   display: grid;
   grid-template-rows: 1fr;
@@ -50,12 +58,25 @@ export const ListTicket = styled.div`
   }
 
   ::-webkit-scrollbar-thumb {
-    box-shadow: inset 0 0 14px 14px rgba(234, 82, 132, 0.75);
+    box-shadow: inset 0 0 14px 14px ${(props) => background(props.background)};
     border: solid 4px transparent;
     border-radius: 14px;
   }
 
   ::-webkit-scrollbar-button {
     display: none;
+  }
+`;
+
+export const GlobalStyle = createGlobalStyle`
+  * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+  }
+  @font-face {
+    font-family: 'LR';
+    src: url(${FontLatoChi}) format('truetype');
+    font-style: normal;
   }
 `;

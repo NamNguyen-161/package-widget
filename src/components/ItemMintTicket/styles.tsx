@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { Text } from "../../styles";
-import { parseColor } from "../../utils/helper";
 import { ColorStyle } from "../types";
+import parse from "parse-color";
 
 const backgroundSelect = (color: string) => {
-  const data = parseColor(color);
-  return `rgba(${data[0]}, ${data[1]}, ${data[2]},0.18)`;
+  const { rgb } = parse(color);
+  return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]},0.18)`;
 };
 
 export const MintTicketComponent = styled.div`
