@@ -17,8 +17,8 @@ export const TextProcess = styled.p<TextProcessProps>`
 
 export interface CircleIndexProcessProps {
   accomplished: boolean;
-  secondColor?: string;
-  primaryColor?: string;
+  secondColor: string;
+  primaryColor: string;
 }
 export const CircleIndexProcess = styled.div<CircleIndexProcessProps>`
   width: 32px;
@@ -27,11 +27,9 @@ export const CircleIndexProcess = styled.div<CircleIndexProcessProps>`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  color: ${(props) => props?.secondColor || "white"};
+  color: ${(props) => props.secondColor};
   border: ${(props) =>
-    props.accomplished
-      ? "none"
-      : `3px solid ${props?.primaryColor || "#EA5284"}`};
+    props.accomplished ? "none" : `3px solid ${props.primaryColor}`};
   background-color: ${(props) =>
-    props.accomplished ? props?.primaryColor || "#EA5284" : "#000000"};
+    props.accomplished ? props.primaryColor : "#000000"};
 `;

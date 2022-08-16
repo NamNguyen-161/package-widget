@@ -4,8 +4,8 @@ import commonjs from "@rollup/plugin-commonjs";
 import typescript from "rollup-plugin-typescript2";
 import postcss from "rollup-plugin-postcss";
 import image from "@rollup/plugin-image";
-import copy from "rollup-plugin-copy";
 import json from "@rollup/plugin-json";
+import url from "@rollup/plugin-url";
 
 const packageJson = require("./package.json");
 
@@ -30,19 +30,15 @@ export default {
     json({
       compact: true,
     }),
+    url({
+      include: ["**/*.ttf"],
+      limit: Infinity,
+    }),
     typescript({
       useTsconfigDeclarationDir: true,
       tsconfig: "./tsconfig.json",
     }),
     postcss(),
     image(),
-    copy({
-      targets: [
-        {
-          src: "src/styles/global.scss",
-          dest: "build",
-        },
-      ],
-    }),
   ],
 };

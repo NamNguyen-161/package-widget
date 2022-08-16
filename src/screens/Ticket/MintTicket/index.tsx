@@ -9,19 +9,11 @@ import useEvent from "../../../components/hooks/useEvent";
 export interface IMinTicketScreenProps {
   listTicket: ITicket[];
   onBackStep: (step: number) => void;
-  onChangeEnableMintTicket: (enable: boolean) => void;
-  enableMintTicket: boolean;
   getMintTicket: (data: ITicket[]) => void;
 }
 
 const MinTicketScreen = (props: IMinTicketScreenProps) => {
-  const {
-    listTicket,
-    onBackStep,
-    onChangeEnableMintTicket,
-    enableMintTicket,
-    getMintTicket,
-  } = props;
+  const { listTicket, onBackStep, getMintTicket } = props;
   const { event } = useEvent();
   const [tickets, setTickets] = useState<ITicket[]>(listTicket);
 
@@ -65,6 +57,7 @@ const MinTicketScreen = (props: IMinTicketScreenProps) => {
       <WrapperMinTicket
         color={event.tertiaryColor}
         background={event.secondColor}
+        primaryColor={event.primaryColor}
       >
         {tickets
           .filter((item) => item.count > 0)
@@ -77,10 +70,7 @@ const MinTicketScreen = (props: IMinTicketScreenProps) => {
           ))}
       </WrapperMinTicket>
       <Divider height={24} />
-      <TermAndConditional
-        onChangeEnableMintTicket={onChangeEnableMintTicket}
-        enableMintTicket={enableMintTicket}
-      />
+      <TermAndConditional />
     </React.Fragment>
   );
 };

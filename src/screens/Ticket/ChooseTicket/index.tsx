@@ -1,4 +1,5 @@
 import React, { memo, useState } from "react";
+import useEvent from "../../../components/hooks/useEvent";
 import useTicket from "../../../components/hooks/useTicket";
 import ItemChooseTicket from "../../../components/ItemChooseTicket";
 import { ITicket } from "../../../components/types";
@@ -12,8 +13,9 @@ export interface IChooseTicketScreenProps {
 
 const ChooseTicketScreen = (props: IChooseTicketScreenProps) => {
   const { increase, decrease, listTicket } = props;
+  const { event } = useEvent();
   return (
-    <ListTicket>
+    <ListTicket background={event.primaryColor}>
       {listTicket.map((ticket, index) => (
         <ItemChooseTicket
           ticket={ticket}

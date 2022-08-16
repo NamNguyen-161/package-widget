@@ -1,4 +1,5 @@
 import React, { memo, useCallback, useMemo } from "react";
+import useEvent from "../hooks/useEvent";
 import { ProgressBar, Step } from "../StepProcessBar";
 import { CircleIndexProcess, TextProcess } from "./styles";
 
@@ -26,6 +27,7 @@ export interface IProgressBarComponentProps {
 
 const ProgressBarComponent = (props: IProgressBarComponentProps) => {
   const { step } = props;
+  const { event } = useEvent();
 
   const getStepPosition = useCallback(() => {
     switch (step) {
@@ -47,8 +49,8 @@ const ProgressBarComponent = (props: IProgressBarComponentProps) => {
     <ProgressBar
       height={2}
       percent={100 * getStepPosition()}
-      filledBackground={"#EA5284"}
-      unfilledBackground={"#FFFFFF"}
+      filledBackground={event.primaryColor}
+      unfilledBackground={event.secondColor}
     >
       {steps.map((item, index) => {
         return (
@@ -61,12 +63,16 @@ const ProgressBarComponent = (props: IProgressBarComponentProps) => {
           >
             {({ accomplished, index }) => (
               <React.Fragment>
-                <CircleIndexProcess accomplished={accomplished}>
+                <CircleIndexProcess
+                  accomplished={accomplished}
+                  secondColor={event.secondColor}
+                  primaryColor={event.primaryColor}
+                >
                   {index + 1}
                 </CircleIndexProcess>
                 <TextProcess
                   accomplished={accomplished}
-                  color="white"
+                  color={event.secondColor}
                   style={addStyles(index)}
                 >
                   {textProcess(index)}

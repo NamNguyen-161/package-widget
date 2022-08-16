@@ -1,37 +1,20 @@
-import React, { memo, useState } from "react";
-import Checkbox from "../Checkbox";
+import React, { memo } from "react";
 import useEvent from "../hooks/useEvent";
-import { TermAndCondition, TextTermAndCondition } from "./styles";
+import { TextTermAndCondition } from "./styles";
 
-export interface ITermAndConditionalProps {
-  onChangeEnableMintTicket: (enable: boolean) => void;
-  enableMintTicket: boolean;
-}
+export interface ITermAndConditionalProps {}
 
 const TermAndConditional = (props: ITermAndConditionalProps) => {
-  const { onChangeEnableMintTicket, enableMintTicket } = props;
   const { event } = useEvent();
 
-  const onChange = () => {
-    onChangeEnableMintTicket(!enableMintTicket);
-  };
-
   return (
-    <TermAndCondition>
-      <Checkbox
-        checked={enableMintTicket}
-        onChange={onChange}
-        color={event.secondColor}
-        background={event.primaryColor}
-      ></Checkbox>
-      <TextTermAndCondition
-        dangerouslySetInnerHTML={{
-          __html:
-            "Please accept the terms & conditions of <u>CHI Network</u>. By accepting out terms & conditions, you also accept the terms & conditions of our vendors and partner(s): <u>Awakenings<u/>",
-        }}
-        color={event.secondColor}
-      />
-    </TermAndCondition>
+    <TextTermAndCondition
+      dangerouslySetInnerHTML={{
+        __html:
+          "The CHI Ticketing Protocol and the interface are developed by the CHI Network DAO. By minting a ticket you agree to the terms and conditions of CHI Network. Visit the website of to issuer for possible additional terms and conditions",
+      }}
+      color={event.secondColor}
+    />
   );
 };
 
