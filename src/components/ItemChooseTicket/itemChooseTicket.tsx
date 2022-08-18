@@ -36,7 +36,9 @@ const ItemChooseTicket = (props: IItemChooseTicketProps) => {
           <ExistingLabel color={event.tertiaryColor}>
             Existing tickets:&nbsp;
           </ExistingLabel>
-          <ExistingNumber>{ticket.amount}</ExistingNumber>
+          <ExistingNumber color={event.tertiaryColor}>
+            {ticket.amount}
+          </ExistingNumber>
         </ExistingTicket>
       </WrapperInfoTicket>
       <ButtonCountTicket background={event.primaryColor}>

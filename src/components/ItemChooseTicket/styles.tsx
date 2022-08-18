@@ -97,7 +97,10 @@ export const TicketName = styled(Text)<Omit<ColorStyle, "background">>`
   display: -webkit-box;
 `;
 
-export const ExistingNumber = styled(ExistingTicket)`
+export const ExistingNumber = styled(ExistingTicket)<
+  Omit<ColorStyle, "background">
+>`
   opacity: 1;
   font-weight: bold;
+  color: ${(props) => props.color};
 `;
